@@ -30,6 +30,6 @@ export const api={
   async getDashboard(){return request<DashboardAnalytics>('/api/dashboard')},
   async getAuditLogs(){return request<AuditLog[]>('/api/audit-logs')},
   async getNotifications(role?:string,operatorId?:string){const p=new URLSearchParams();if(role)p.set('role',role);if(operatorId)p.set('operatorId',operatorId);return request<NotificationItem[]>(`/api/notifications?${p}`)},
-  async markNotificationRead(id:string){await fetch(`/api/notifications/${id}/read`,{method:'POST'})},
+  async markNotificationRead(id:string){await request(`/api/notifications/${id}/read`,{method:'POST',headers:getHeaders()})},
   async resetSeed(){await request('/api/seed/reset',{method:'POST',headers:getHeaders()})}
 };
