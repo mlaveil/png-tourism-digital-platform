@@ -1,36 +1,37 @@
 import { Province, TourismCategory, TourismOperator, RegistrationApplication, MembershipRecord, LicenseRecord, OperatorCompliance, AuditLog, NotificationItem, DemoUser } from '../types';
 
 export const DEMO_USERS: DemoUser[] = [
- {id:'user-admin-1',name:'Markus Kaumu',role:'admin',title:'Director of Policy & Licensing',department:'PNG Tourism Promotion Authority (PNG TPA)',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'},
- {id:'user-staff-1',name:'Grace Pakur',role:'staff',title:'Senior Registry & Compliance Officer',department:'PNG TPA Operations Division',avatar:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'},
- {id:'user-op-1',name:'John Wari',role:'operator',title:'Managing Director',department:'PNG Paradise Tours Ltd',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',operatorId:'op-png-paradise'},
- {id:'user-public-1',name:'Elena Rostova',role:'public',title:'International Traveler & Adventurer',department:'Public Tourism Directory',avatar:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'}
+  {id:'user-admin-1',name:'Markus Kaumu',role:'admin',title:'Director of Policy & Licensing',department:'PNG Tourism Promotion Authority (PNG TPA)',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'},
+  {id:'user-staff-1',name:'Grace Pakur',role:'staff',title:'Senior Registry & Compliance Officer',department:'PNG TPA Operations Division',avatar:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'},
+  {id:'user-op-1',name:'John Wari',role:'operator',title:'Managing Director',department:'PNG Paradise Tours Ltd',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',operatorId:'op-png-paradise'},
+  {id:'user-public-1',name:'Elena Rostova',role:'public',title:'International Traveler & Adventurer',department:'Public Tourism Directory',avatar:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'}
 ];
 
 const province=(id:string,name:string,region:Province['region'],capital:string,description:string,lat:number,lng:number,heroImage:string):Province=>({id,name,region,capital,description,heroImage,coordinates:{lat,lng}});
+const HERO='https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&auto=format&fit=crop&q=80';
 export const PROVINCES: Province[] = [
  province('ncd','National Capital District','Southern','Port Moresby','National capital and principal gateway for international and domestic tourism.',-9.4438,147.1803,'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800&auto=format&fit=crop&q=80'),
- province('central','Central','Southern','Port Moresby','Kokoda access, coastal communities, mountain landscapes and cultural experiences.',-9.8000,147.6000,'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&auto=format&fit=crop&q=80'),
+ province('central','Central','Southern','Port Moresby','Kokoda access, coastal communities, mountain landscapes and cultural experiences.',-9.8,147.6,'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&auto=format&fit=crop&q=80'),
  province('gulf','Gulf','Southern','Kerema','Wetlands, rivers, coastal communities and distinctive Gulf cultural landscapes.',-7.9636,145.7785,'https://images.unsplash.com/photo-1500534623283-312aade485b7?w=800&auto=format&fit=crop&q=80'),
  province('western','Western','Southern','Daru','Fly River landscapes, Lake Murray and remote wilderness tourism.',-9.0778,143.2092,'https://images.unsplash.com/photo-1511497584788-876760111969?w=800&auto=format&fit=crop&q=80'),
- province('milne-bay','Milne Bay','Southern','Alotau','Island cultures, marine adventures, reefs and community-based tourism.',-10.3167,150.4500,'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=800&auto=format&fit=crop&q=80'),
+ province('milne-bay','Milne Bay','Southern','Alotau','Island cultures, marine adventures, reefs and community-based tourism.',-10.3167,150.45,'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=800&auto=format&fit=crop&q=80'),
  province('oro','Oro (Northern)','Southern','Popondetta','Tufi fjords, coastal reefs, rainforest and World War II heritage.',-9.0833,149.3167,'https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=800&auto=format&fit=crop&q=80'),
  province('morobe','Morobe','Momase','Lae','Lae gateway, Huon Peninsula, rainforest and historical sites.',-6.7281,146.9944,'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80'),
- province('madang','Madang','Momase','Madang','Coastal, marine, island and village experiences around Madang.',-5.2167,145.8000,'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&auto=format&fit=crop&q=80'),
- province('east-sepik','East Sepik','Momase','Wewak','Sepik River cultural heritage, river journeys and traditional arts.',-3.5833,143.7000,'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&auto=format&fit=crop&q=80'),
+ province('madang','Madang','Momase','Madang','Coastal, marine, island and village experiences around Madang.',-5.2167,145.8,'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&auto=format&fit=crop&q=80'),
+ province('east-sepik','East Sepik','Momase','Wewak','Sepik River cultural heritage, river journeys and traditional arts.',-3.5833,143.7,'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&auto=format&fit=crop&q=80'),
  province('sandaun','Sandaun (West Sepik)','Momase','Vanimo','Vanimo coast, surf, forests and frontier tourism experiences.',-2.6989,141.3028,'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&auto=format&fit=crop&q=80'),
  province('eastern-highlands','Eastern Highlands','Highlands','Goroka','Highland culture, coffee, birdlife and major cultural events.',-6.0833,145.3833,'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&auto=format&fit=crop&q=80'),
  province('western-highlands','Western Highlands','Highlands','Mount Hagen','Highland cultural tourism, gardens, landscapes and mountain experiences.',-5.8575,144.2267,'https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&auto=format&fit=crop&q=80'),
  province('southern-highlands','Southern Highlands','Highlands','Mendi','Mountain landscapes, cultural traditions and community tourism.',-6.1471,143.6572,'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&auto=format&fit=crop&q=80'),
- province('hela','Hela','Highlands','Tari','Tari Valley, Huli cultural heritage and highland wildlife.',-5.8450,142.9460,'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&auto=format&fit=crop&q=80'),
+ province('hela','Hela','Highlands','Tari','Tari Valley, Huli cultural heritage and highland wildlife.',-5.845,142.946,'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&auto=format&fit=crop&q=80'),
  province('enga','Enga','Highlands','Wabag','Mountain valleys, cultural traditions and highland community experiences.',-5.4667,143.4333,'https://images.unsplash.com/photo-1464278533981-50106e6176b1?w=800&auto=format&fit=crop&q=80'),
  province('simp','Simbu (Chimbu)','Highlands','Kundiawa','Mountain scenery, coffee and distinctive highland cultural experiences.',-6.0167,144.9667,'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&auto=format&fit=crop&q=80'),
+ province('jiwaka','Jiwaka','Highlands','Minj','Highland valleys, coffee, gardens and community-based cultural experiences.',-5.8667,144.2333,HERO),
  province('east-new-britain','East New Britain','Islands','Kokopo','Volcanic landscapes, marine tourism and cultural traditions.',-4.3421,152.2683,'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80'),
- province('west-new-britain','West New Britain','Islands','Kimbe','Kimbe Bay marine biodiversity, diving and island tourism.',-5.5500,150.1500,'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&auto=format&fit=crop&q=80'),
+ province('west-new-britain','West New Britain','Islands','Kimbe','Kimbe Bay marine biodiversity, diving and island tourism.',-5.55,150.15,'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&auto=format&fit=crop&q=80'),
  province('new-ireland','New Ireland','Islands','Kavieng','Surf, reefs, island culture and historic sites.',-2.5744,150.7967,'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&auto=format&fit=crop&q=80'),
- province('manus','Manus','Islands','Lorengau','Remote island and marine tourism in the Admiralty Islands.',-2.0333,147.0000,'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&auto=format&fit=crop&q=80'),
- province('autonomous-bougainville','Autonomous Region of Bougainville','Islands','Buka','Island landscapes, marine tourism and cultural heritage.',-5.4300,154.6700,'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=800&auto=format&fit=crop&q=80'),
- province('national-highlands','National Highlands','Highlands','—','National highlands coverage placeholder for platform demonstration.',-5.9000,144.3000,'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&auto=format&fit=crop&q=80')
+ province('manus','Manus','Islands','Lorengau','Remote island and marine tourism in the Admiralty Islands.',-2.0333,147,'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&auto=format&fit=crop&q=80'),
+ province('autonomous-bougainville','Autonomous Region of Bougainville','Islands','Buka','Island landscapes, marine tourism and cultural heritage.',-5.43,154.67,'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=800&auto=format&fit=crop&q=80')
 ];
 
 export const TOURISM_CATEGORIES: TourismCategory[] = [
