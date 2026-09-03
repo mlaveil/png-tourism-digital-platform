@@ -21,6 +21,25 @@ export type ComplianceStatus = 'Compliant' | 'Conditional' | 'Non-Compliant';
 
 export type RequirementStatus = 'Compliant' | 'Pending' | 'Non-Compliant' | 'Expired';
 
+export type TourismAssetType =
+  | 'Destination'
+  | 'Attraction'
+  | 'Experience'
+  | 'Event'
+  | 'Accommodation'
+  | 'Cultural Site'
+  | 'Heritage Site'
+  | 'Wildlife Site'
+  | 'Trail'
+  | 'Transport Service'
+  | 'Community Tourism Project';
+
+/** Shared geographic point used by destinations and tourism assets. */
+export interface GeoCoordinates {
+  lat: number;
+  lng: number;
+}
+
 export interface Province {
   id: string;
   name: string;
@@ -28,10 +47,7 @@ export interface Province {
   capital: string;
   description: string;
   heroImage: string;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
+  coordinates: GeoCoordinates;
   operatorCount?: number;
 }
 
@@ -41,6 +57,100 @@ export interface TourismCategory {
   iconName: string;
   description: string;
   badgeColor: string;
+}
+
+/**
+ * Public/editorial destination record. This is deliberately separate from
+ * regulatory operator records so tourism content can evolve independently.
+ */
+export interface Destination {
+  id: string;
+  name: string;
+  provinceId: string;
+  provinceName: string;
+  region: Province['region'];
+  description: string;
+  heroImage: string;
+  coordinates: GeoCoordinates;
+  categoryIds: string[];
+  featured?: boolean;
+  isDemoData: boolean;
+  lastUpdatedDate: string;
+}
+
+/** Generic public tourism asset that can later be specialized by asset type. */
+export interface TourismAsset {
+  id: string;
+  type: TourismAssetType;
+  name: string;
+  destinationId?: string;
+  provinceId: string;
+  description: string;
+  heroImage?: string;
+  galleryImages?: string[];
+  coordinates?: GeoCoordinates;
+  categoryIds: string[];
+  operatorIds?: string[];
+  featured?: boolean;
+  isDemoData: boolean;
+  lastUpdatedDate: string;
+}
+
+export interface EventRecord {
+  id: string;
+  name: string;
+  description: string;
+  provinceId: string;
+  destinationId?: string;
+  startDate: string;
+  endDate?: string;
+  location: string;
+  heroImage?: string;
+  isDemoData: boolean;
+}
+
+export interface TravelAdvisory {
+  id: string;
+  title: string;
+  summary: string;
+  severity: 'Information' | 'Caution' | 'Important';
+  issuedDate: string;
+  expiresDate?: string;
+  affectedProvinceIds?: string[];
+  sourceName: string;
+  isDemoData: boolean;
+}
+
+export interface MediaAsset {
+  id: string;
+  title: string;
+  url: string;
+  altText: string;
+  mediaType: 'image' | 'video' | 'document';
+  ownerType: 'Destination' | 'TourismAsset' | 'Operator' | 'Event' | 'System';
+  ownerId: string;
+  isDemoData: boolean;
+}
+
+export interface ItineraryItem {
+  id: string;
+  day: number;
+  title: string;
+  description?: string;
+  destinationId?: string;
+  assetId?: string;
+  operatorId?: string;
+}
+
+export interface Itinerary {
+  id: string;
+  title: string;
+  description?: string;
+  startDate?: string;
+  endDate?: string;
+  items: ItineraryItem[];
+  createdDate: string;
+  updatedDate: string;
 }
 
 export interface ComplianceRequirement {
