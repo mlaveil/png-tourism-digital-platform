@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --tpa-green: #00472F;
+    --tpa-green-dark: #003624;
+    --tpa-green-light: #006040;
+    --tpa-gold: #D9A100;
+    --tpa-gold-light: #F3BA2F;
+    --tpa-gold-dark: #B38400;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+/* Theme helper utility classes */
+.bg-tpa-green {
+  background-color: #00472F;
+}
+.bg-tpa-green-dark {
+  background-color: #003624;
+}
+.bg-tpa-gold {
+  background-color: #D9A100;
+}
+.text-tpa-green {
+  color: #00472F;
+}
+.text-tpa-gold {
+  color: #D9A100;
+}
+.border-tpa-green {
+  border-color: #00472F;
+}
+.border-tpa-gold {
+  border-color: #D9A100;
+}
+.hover\:bg-tpa-green:hover {
+  background-color: #00472F;
+}
+.hover\:bg-tpa-green-dark:hover {
+  background-color: #003624;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Leaflet map custom popup reset */
+.leaflet-popup-content-wrapper {
+  padding: 0 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.22), 0 8px 12px -4px rgba(0, 0, 0, 0.12) !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: normal !important;
+}
+
+.leaflet-container {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+/* Leaflet custom tooltip card reset */
+.leaflet-tooltip-tpa {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 14px !important;
+  cursor: pointer !important;
+  z-index: 1000 !important;
+}
+
+.leaflet-tooltip-tpa::before {
+  display: none !important;
+}
+
+.leaflet-tooltip-top.leaflet-tooltip-tpa::before,
+.leaflet-tooltip-bottom.leaflet-tooltip-tpa::before,
+.leaflet-tooltip-left.leaflet-tooltip-tpa::before,
+.leaflet-tooltip-right.leaflet-tooltip-tpa::before {
+  border: none !important;
+}
+
+

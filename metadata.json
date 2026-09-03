@@ -1,0 +1,6 @@
+{
+  "name": "PNG Tourism Digital Platform",
+  "description": "National Tourism Digital Platform prototype for the Papua New Guinea Tourism Promotion Authority (PNG TPA), featuring central registry, multi-channel distribution, workflow approvals, licensing, memberships, compliance, GIS mapping, and analytics.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
