@@ -1,84 +1,231 @@
 # Papua New Guinea Tourism Digital Platform (PNG TPA)
-## Minimum Viable Product (MVP) Prototype
+
+## National Tourism Platform Prototype
 
 **Prepared for:** Papua New Guinea Tourism Promotion Authority (PNG TPA)  
-**Date:** August 2026  
-**Architecture:** Centralized Single Source-of-Truth Platform & Multi-Channel API  
+**Status:** Demonstration prototype — not an official tourism registry  
+**Architecture:** Centralized platform concept with multi-channel API  
+
+> **DEMONSTRATION DATA — NOT AN OFFICIAL TOURISM REGISTRY**
+>
+> Operator records, licences, memberships, compliance results, ratings, statistics and other registry values in this prototype are synthetic demonstration data unless explicitly identified otherwise.
 
 ---
 
-## 1. Executive Overview
+## 1. Product Vision
 
-The **PNG Tourism Digital Platform** is an enterprise-grade prototype built to modernise and unify Papua New Guinea’s national tourism registry, statutory licensing, industry memberships, compliance assurance, and citizen/visitor distribution channels.
+The PNG Tourism Digital Platform is a prototype for a future national tourism digital ecosystem connecting tourism discovery, industry administration and tourism intelligence.
 
-Rather than maintaining siloed websites and paper-based registries, all digital channels—**TPA Regulatory Administration**, **Tourism Operator Self-Service Portal**, **Public Tourism Web Directory**, **Provincial Tourism Bureaus**, **Airport Touch Kiosks**, and the **Mobile Super App**—consume the same underlying REST API and relational tourism data model.
+The long-term product is organized around three connected pillars:
 
----
+### Discover PNG
 
-## 2. Supported User Roles & Personas
+The public tourism experience for visitors and the tourism industry:
 
-Switch between personas dynamically using the top header role selector:
+- Destinations
+- Attractions
+- Things to Do
+- Experiences
+- Events
+- Accommodation
+- Tourism Operators
+- Interactive map discovery
+- Trip planning
 
-| Persona | Role | Organization / Title | Primary Capabilities |
-|---|---|---|---|
-| **Grace Pakur** | `staff` | Senior Registry & Compliance Officer, TPA | Enrol operators, review submissions, conduct compliance audits, update status. |
-| **Markus Kaumu** | `admin` | Director of Policy & Licensing, TPA | Approve/reject registrations, issue official commercial operating licences, assess statutory sanctions. |
-| **Elijah Vagi** | `operator` | Managing Director, Kokoda Trail Expeditions | Manage business listing, upload compliance renewals, display verified QR credentials. |
-| **Sarah Jenkins** | `public` | International Tourist (Australia / Global) | Search verified tour operators, view interactive GIS maps, inspect certified credentials, send direct booking inquiries. |
+### Manage PNG Tourism
 
----
+The institutional platform for TPA, provincial authorities and tourism operators:
 
-## 3. Multi-Channel Experience
+- Operator registration
+- Registration applications and workflows
+- Membership
+- Licensing
+- Compliance
+- Documents
+- Provincial administration
+- Audit and governance
+- Notifications
 
-1. **TPA Regulatory Admin Portal (`/admin`)**
-   - Platform analytics KPI metrics (Operators, Pending Queue, Active Licences, Compliance Rate).
-   - National Tourism Registry table with multi-criteria filtering (Province, Category, Registration Status, Compliance Status) and CSV export.
-   - Kanban and List workflow engine for registration applications.
-   - Operating Licence and Membership registers.
-   - Comprehensive 360° Operator Inspector with live statutory compliance calculation and immutable audit logging.
+### Understand PNG Tourism
 
-2. **Operator Self-Service Portal (`/operator`)**
-   - Business profile management and public directory preview.
-   - Live digital operating certificate with verifiable QR verification codes.
-   - Document upload simulator for IPA registrations, liability insurance, and guide certifications.
+The tourism intelligence layer:
 
-3. **Public Tourism Directory (`/public`)**
-   - High-impact destination portal with live OpenStreetMap/Leaflet integration.
-   - Search by experience type (Trekking, Diving, Culture, Wildlife, Lodges) and province.
-   - Public operator profiles showing verified credentials while keeping internal compliance audit notes private.
+- Registry and licensing metrics
+- Geographic distribution
+- Registration trends
+- Compliance indicators
+- Provincial activity
+- Tourism opportunity analysis
 
-4. **Provincial Tourism Portal (`/province`)**
-   - Dedicated views for all 22 Papua New Guinea provinces (East New Britain, National Capital District, Milne Bay, Morobe, Madang, Western Highlands, etc.).
-   - Local economic and compliance statistics, provincial attractions, and targeted GIS mapping.
-
-5. **Jacksons Airport Touch Kiosk (`/kiosk`)**
-   - High-contrast touchscreen interface for arriving international visitors.
-   - Rapid tactile filtering, offline-ready mapping, and mobile QR handoff.
-
-6. **Official Mobile Super App (`/app`)**
-   - Simulated smartphone experience with bottom navigation (Explore, GIS Map, Licences, Saved).
+These pillars should eventually operate from a shared authoritative data platform rather than independent applications.
 
 ---
 
-## 4. End-to-End Acceptance Test Walkthrough (Section 29)
+## 2. Current Prototype Channels
 
-Click the **"Demo Acceptance Scenario"** button in the top navigation to follow the interactive guide:
+The current prototype demonstrates six experience concepts:
 
-1. **Login as TPA Staff:** Select Grace Pakur (`staff`).
-2. **Open Tourism Registry:** Go to the National Registry tab.
-3. **Create Operator:** Click "Add Operator" and input `PNG Paradise Tours Ltd` in National Capital District.
-4. **Submit Application:** Open the 360° Inspector, switch to the "Registration Workflow" tab, and submit the application.
-5. **Switch to TPA Administrator:** Switch role to Markus Kaumu (`admin`).
-6. **Review & Approve:** Review the application and click **Approve Application**, then **Finalize & Enrol in National Registry**.
-7. **Issue Active Licences & Memberships:** In the same inspector, issue a *Standard Tourism Commercial Licence* and a *Tour Operator Corporate Membership*.
-8. **Verify Compliance:** Switch to the "Compliance Engine" tab and ensure all statutory requirements (IPA, Insurance, Safety) are marked Compliant. The overall standing recalculates instantly to **COMPLIANT**.
-9. **Verify Public Directory:** Switch channel to **Public Tourism Directory**. Search for `PNG Paradise Tours` and verify the verified operator card appears with its exact coordinates.
-10. **Verify Provincial & Kiosk Channels:** Switch channel to **Provincial Portal** (NCD) and **Touch Kiosk Mode** to confirm the newly registered operator appears across all channels simultaneously.
+1. **TPA Regulatory Admin Portal** — registry, workflow, licensing, membership, compliance and dashboard views.
+2. **Tourism Operator Self-Service Portal** — business profile, documents and credential concepts.
+3. **Public Tourism Web Portal** — tourism discovery, operator directory and GIS map.
+4. **Provincial Tourism Portal** — province-oriented administration and discovery concepts.
+5. **Touchscreen Kiosk** — visitor-facing airport/kiosk concept.
+6. **Mobile Super App** — mobile visitor experience concept.
+
+These channels currently use the prototype API and in-memory store. They are not yet a production national registry.
 
 ---
 
-## 5. Technology Stack
+## 3. Domain Direction
 
-- **Frontend:** React 19, TypeScript, Tailwind CSS, Lucide React, Leaflet Maps, Framer Motion.
-- **Backend:** Node.js, Express REST API, in-memory relational store with audit trail engine.
-- **Build System:** Vite 6 with tsx full-stack dev server and esbuild bundler.
+The current prototype is operator-centric, but the national platform should treat tourism assets as first-class domain objects.
+
+The target domain includes:
+
+- Province
+- Destination
+- Attraction
+- Experience
+- Event
+- Accommodation
+- Tourism Operator
+- Cultural Site
+- Heritage Site
+- Wildlife Site
+- Trail
+- Transport Service
+- Community Tourism Project
+- Travel Advisory
+- Media Asset
+- Itinerary
+
+Authoritative regulatory records must remain separate from public editorial content and visitor-generated information such as reviews and ratings.
+
+---
+
+## 4. PNG Geography
+
+The target platform is national in scope and should cover Papua New Guinea's provinces and National Capital District.
+
+The current seed dataset is a demonstration subset and should not be represented as a complete official national tourism registry.
+
+The intended geographic hierarchy is:
+
+**PNG → Region → Province/NCD → Destination → Tourism Asset → Operator/Service**
+
+Future production implementation should use authoritative geographic and tourism datasets rather than synthetic seed content.
+
+---
+
+## 5. Security and Authentication Boundary
+
+Firebase authentication is present in the prototype, but the current demo role-switching mechanism is intentionally simplified for stakeholder demonstrations.
+
+It must not be treated as production authorization.
+
+Production implementation should:
+
+- verify Firebase ID tokens server-side;
+- derive the authenticated UID from the verified token;
+- obtain roles and permissions from trusted server-side data;
+- enforce authorization on the backend;
+- never trust client-provided role/name headers for authorization;
+- record authenticated UID and actor context in audit events.
+
+---
+
+## 6. Persistence Boundary
+
+The current backend uses an in-memory store and resets to seed data on startup/reset.
+
+For production, the intended architecture is:
+
+**React web application → API/service layer → PostgreSQL → object storage/search/GIS/auth/analytics/notifications**
+
+The in-memory store is retained because it makes the stakeholder demonstration portable and easy to reset.
+
+---
+
+## 7. Demonstration Walkthrough
+
+The application includes a **Demo Acceptance Scenario** control in the header. It demonstrates the intended end-to-end relationship between:
+
+1. TPA staff registration activity
+2. Registration review
+3. Administrative approval
+4. Licence and membership concepts
+5. Compliance assessment
+6. Public operator discovery
+7. Provincial visibility
+8. Kiosk/mobile distribution
+
+The walkthrough is a prototype demonstration, not a representation of a live statutory approval process.
+
+---
+
+## 8. Technology Stack
+
+- **Frontend:** React 19, TypeScript, Tailwind CSS, Lucide React, Leaflet.
+- **Backend:** Node.js, Express REST API.
+- **Prototype persistence:** In-memory relational-style store.
+- **Authentication:** Firebase Authentication prototype integration.
+- **Build:** Vite with TypeScript/tsx and esbuild.
+
+---
+
+## 9. Roadmap
+
+### Phase 1 — Client Demonstration
+
+- Public Discover PNG experience
+- National geography structure
+- Destination and tourism asset discovery
+- Search and GIS exploration
+- Operator profiles and verification presentation
+- Accurate expiry indicators
+- Demonstration-data safeguards
+- Responsive/mobile polish
+- Accessibility improvements
+
+### Phase 2 — Platform Foundation
+
+- PostgreSQL persistence
+- Server-side authentication/RBAC
+- Document and media storage
+- Registration workflow engine
+- Immutable audit architecture
+- Notification service
+- CMS/editorial workflow
+- Search infrastructure
+
+### Phase 3 — National Platform
+
+- Complete authoritative geography
+- Destinations and attractions
+- Experiences and events
+- Accommodation
+- Cultural/heritage/wildlife assets
+- Provincial portals
+- GIS data services
+- National tourism intelligence
+
+### Phase 4 — Visitor Experience
+
+- Trip planner
+- Saved itineraries
+- PWA/offline capability
+- QR credential verification
+- Near-me discovery
+- Travel information
+- Multilingual content
+- AI tourism concierge
+
+### Phase 5 — Ecosystem Integration
+
+Potential future integrations include airlines, airports, accommodation, transport, booking services, provincial systems, maritime services, weather and other approved tourism ecosystem partners.
+
+---
+
+## 10. Important Prototype Limitation
+
+This repository is a stakeholder prototype. It should not be deployed as a live government registry without implementing production authentication, authorization, persistent storage, data governance, audit controls, authoritative data sources, operational security, privacy controls and appropriate TPA governance.
