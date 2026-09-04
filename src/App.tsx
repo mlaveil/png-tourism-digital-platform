@@ -14,10 +14,12 @@ import { OperatorPortalLayout } from './components/operator/OperatorPortalLayout
 import { PublicPortalLayout } from './components/public/PublicPortalLayout';
 import { ProvincialPortalLayout } from './components/province/ProvincialPortalLayout';
 import { KioskView } from './components/kiosk/KioskView';
+import { KioskAuthScreen } from './components/kiosk/KioskAuthScreen';
 import { SuperAppView } from './components/app/SuperAppView';
 import { RefreshCw, AlertCircle, ShieldAlert } from 'lucide-react';
 
 const DEMO_SESSION_KEY = 'png-tourism-demo-session';
+const KIOSK_AUTH_KEY = 'png-tourism-kiosk-authenticated';
 type Channel = 'admin' | 'operator' | 'public' | 'province' | 'kiosk' | 'app';
 
 const channelFromUrl = (): Channel => {
@@ -32,6 +34,7 @@ export default function App() {
   const initialChannel = channelFromUrl();
   const [firebaseUser,setFirebaseUser]=useState<FirebaseUser|null>(null),[authLoading,setAuthLoading]=useState(true);
   const [demoSession,setDemoSession]=useState(()=>isStandaloneChannel(initialChannel)||localStorage.getItem(DEMO_SESSION_KEY)==='1');
+  const [kioskAuthenticated,setKioskAuthenticated]=useState(()=>initialChannel==='kiosk'&&sessionStorage.getItem(KIOSK_AUTH_KEY)==='1');
   const [currentUser,setCurrentUser]=useState<DemoUser>(DEMO_USERS[0]);
   const [activeChannel,setActiveChannel]=useState<Channel>(initialChannel);
   const [isDemoModalOpen,setIsDemoModalOpen]=useState(false),[isAddOperatorModalOpen,setIsAddOperatorModalOpen]=useState(false),[selectedOperatorForModal,setSelectedOperatorForModal]=useState<TourismOperator|null>(null);
@@ -50,12 +53,13 @@ export default function App() {
   const addNotification=(title:string,message:string,type:'workflow'|'licensing'|'compliance'|'system'='system')=>setNotifications(prev=>[{id:`notif-${Date.now()}`,title,message,type,timestamp:new Date().toISOString(),read:false},...prev]);
   const handleMarkNotificationRead=async(id:string)=>{setNotifications(prev=>prev.map(n=>n.id===id?{...n,read:true}:n));await api.markNotificationRead(id)};
   const handleResetSeed=async()=>{try{setLoading(true);await api.resetSeed();await loadAllData();addNotification('Demo dataset reset','Records restored to the prepared demonstration state.')}catch(err:any){alert(err.message||'Failed to reset seed')}finally{setLoading(false)}};
-  const handleCreateOperator=async(data:Partial<TourismOperator>)=>{const created=await api.createOperator(data);await loadAllData();addNotification('Operator record created',`Created "${created.businessName}" as a demonstration registry record.`);setSelectedOperatorForModal(created)};
+  const handleCreateOperator=async(data:Partial<TourismOperator>)=>{const created=await api.createOperator(data);await loadAllData();addNotification('Operator record created',`Created \"${created.businessName}\" as a demonstration registry record.`);setSelectedOperatorForModal(created)};
   const handleUpdateRegistrationStatus=async(id:string,status:RegistrationStatus,notes?:string)=>{await api.updateRegistrationStatus(id,status,notes);await loadAllData();addNotification('Registration updated',`Application status changed to ${status}.`,'workflow')};
   const handleUpdateLicenseStatus=async(id:string,status:LicenseStatus)=>{await api.updateLicenseStatus(id,status);await loadAllData();addNotification('Licence updated',`Licence status changed to ${status}.`,'licensing')};
   const handleUpdateMembershipStatus=async(id:string,status:MembershipStatus)=>{await api.updateMembershipStatus(id,status);await loadAllData();addNotification('Membership updated',`Membership status changed to ${status}.`,'workflow')};
 
   if(authLoading)return <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center space-y-3"><RefreshCw className="w-8 h-8 text-[#D9A100] animate-spin"/><p className="text-sm font-semibold">Initializing PNG Tourism Digital Platform…</p></div>;
+  if(initialChannel==='kiosk'&&!kioskAuthenticated)return <KioskAuthScreen onAuthenticated={()=>setKioskAuthenticated(true)}/>;
   if(!firebaseUser&&!demoSession)return <AuthScreen onAuthSuccess={()=>handleChannelChange('admin')} onDemoAccess={enterDemo}/>;
 
   const standalone=isStandaloneChannel(activeChannel);
