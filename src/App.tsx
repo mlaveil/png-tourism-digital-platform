@@ -17,20 +17,25 @@ import { KioskView } from './components/kiosk/KioskView';
 import { SuperAppView } from './components/app/SuperAppView';
 import { RefreshCw, AlertCircle, ShieldAlert } from 'lucide-react';
 
+const DEMO_SESSION_KEY = 'png-tourism-demo-session';
+
 export default function App() {
   const [firebaseUser,setFirebaseUser]=useState<FirebaseUser|null>(null),[authLoading,setAuthLoading]=useState(true);
+  const [demoSession,setDemoSession]=useState(()=>localStorage.getItem(DEMO_SESSION_KEY)==='1');
   const [currentUser,setCurrentUser]=useState<DemoUser>(DEMO_USERS[0]);
   const [activeChannel,setActiveChannel]=useState<'admin'|'operator'|'public'|'province'|'kiosk'|'app'>('admin');
   const [isDemoModalOpen,setIsDemoModalOpen]=useState(false),[isAddOperatorModalOpen,setIsAddOperatorModalOpen]=useState(false),[selectedOperatorForModal,setSelectedOperatorForModal]=useState<TourismOperator|null>(null);
   const [operators,setOperators]=useState<TourismOperator[]>([]),[registrations,setRegistrations]=useState<RegistrationApplication[]>([]),[memberships,setMemberships]=useState<MembershipRecord[]>([]),[licenses,setLicenses]=useState<LicenseRecord[]>([]),[auditLogs,setAuditLogs]=useState<AuditLog[]>([]),[analytics,setAnalytics]=useState<DashboardAnalytics|null>(null),[provinces,setProvinces]=useState<Province[]>([]),[categories,setCategories]=useState<TourismCategory[]>([]),[notifications,setNotifications]=useState<NotificationItem[]>([]);
   const [loading,setLoading]=useState(true),[error,setError]=useState<string|null>(null);
 
-  useEffect(()=>{const unsubscribe=onAuthStateChanged(auth,user=>{if(user&&user.emailVerified){setFirebaseUser(user);setActiveChannel('admin')}else setFirebaseUser(null);setAuthLoading(false)});return()=>unsubscribe()},[]);
+  useEffect(()=>{const unsubscribe=onAuthStateChanged(auth,user=>{if(user&&user.emailVerified){setFirebaseUser(user);setDemoSession(false);setActiveChannel('admin')}else setFirebaseUser(null);setAuthLoading(false)});return()=>unsubscribe()},[]);
   useEffect(()=>{api.setCurrentUser(currentUser.name,currentUser.role)},[currentUser]);
 
   const loadAllData=useCallback(async()=>{try{setLoading(true);setError(null);const [ops,regs,mems,lics,logs,dash,provs,cats,notifs]=await Promise.all([api.getOperators(),api.getRegistrations(),api.getMemberships(),api.getLicenses(),api.getAuditLogs(),api.getDashboard(),api.getProvinces(),api.getCategories(),api.getNotifications(currentUser.role,currentUser.operatorId)]);setOperators(ops);setRegistrations(regs);setMemberships(mems);setLicenses(lics);setAuditLogs(logs);setAnalytics(dash);setProvinces(provs);setCategories(cats);setNotifications(notifs)}catch(err:any){console.error('Data load failure:',err);setError(err.message||'Failed to connect to central platform API')}finally{setLoading(false)}},[currentUser.role,currentUser.operatorId]);
-  useEffect(()=>{if(firebaseUser)loadAllData()},[firebaseUser,loadAllData]);
+  useEffect(()=>{if(firebaseUser||demoSession)loadAllData()},[firebaseUser,demoSession,loadAllData]);
 
+  const enterDemo=()=>{localStorage.setItem(DEMO_SESSION_KEY,'1');setDemoSession(true);setCurrentUser(DEMO_USERS[0]);setActiveChannel('admin')};
+  const handleLogout=async()=>{localStorage.removeItem(DEMO_SESSION_KEY);setDemoSession(false);if(firebaseUser)await signOut(auth)};
   const addNotification=(title:string,message:string,type:'workflow'|'licensing'|'compliance'|'system'='system')=>setNotifications(prev=>[{id:`notif-${Date.now()}`,title,message,type,timestamp:new Date().toISOString(),read:false},...prev]);
   const handleMarkNotificationRead=async(id:string)=>{setNotifications(prev=>prev.map(n=>n.id===id?{...n,read:true}:n));await api.markNotificationRead(id)};
   const handleResetSeed=async()=>{try{setLoading(true);await api.resetSeed();await loadAllData();addNotification('Demo dataset reset','Records restored to the prepared demonstration state.')}catch(err:any){alert(err.message||'Failed to reset seed')}finally{setLoading(false)}};
@@ -40,10 +45,10 @@ export default function App() {
   const handleUpdateMembershipStatus=async(id:string,status:MembershipStatus)=>{await api.updateMembershipStatus(id,status);await loadAllData();addNotification('Membership updated',`Membership status changed to ${status}.`,'workflow')};
 
   if(authLoading)return <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center space-y-3"><RefreshCw className="w-8 h-8 text-[#D9A100] animate-spin"/><p className="text-sm font-semibold">Initializing PNG Tourism Digital Platform…</p></div>;
-  if(!firebaseUser)return <AuthScreen onAuthSuccess={()=>setActiveChannel('admin')}/>;
+  if(!firebaseUser&&!demoSession)return <AuthScreen onAuthSuccess={()=>setActiveChannel('admin')} onDemoAccess={enterDemo}/>;
 
   return <div className="min-h-screen bg-slate-100 text-slate-900 flex flex-col font-['Inter'] selection:bg-emerald-500 selection:text-white">
-    <DemoHeader currentUser={currentUser} onSelectUser={setCurrentUser} activeChannel={activeChannel} onSelectChannel={setActiveChannel} notifications={notifications} onMarkNotificationRead={handleMarkNotificationRead} onResetSeed={handleResetSeed} onOpenDemoGuide={()=>setIsDemoModalOpen(true)} authUser={firebaseUser} onLogout={()=>signOut(auth)}/>
+    <DemoHeader currentUser={currentUser} onSelectUser={setCurrentUser} activeChannel={activeChannel} onSelectChannel={setActiveChannel} notifications={notifications} onMarkNotificationRead={handleMarkNotificationRead} onResetSeed={handleResetSeed} onOpenDemoGuide={()=>setIsDemoModalOpen(true)} authUser={firebaseUser} onLogout={handleLogout}/>
     <div className="demo-data-banner px-4 py-2 text-[11px] font-bold tracking-wide text-center border-b border-red-950" role="status"><div className="max-w-7xl mx-auto flex items-center justify-center gap-2"><ShieldAlert className="w-4 h-4 shrink-0"/><span>DEMONSTRATION SYSTEM — DATA, LICENCES, MEMBERSHIPS AND VERIFICATION STATUSES ARE ILLUSTRATIVE ONLY — NOT AN OFFICIAL TOURISM REGISTRY</span></div></div>
     {error&&<div className="bg-rose-600 text-white px-4 py-2.5 text-xs font-semibold flex items-center justify-between shadow-md"><div className="flex items-center gap-2 max-w-7xl mx-auto w-full"><AlertCircle className="w-4 h-4 shrink-0"/><span>Connection warning: {error}</span><button onClick={loadAllData} className="ml-auto underline">Retry connection</button></div></div>}
     <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 md:p-8">
